@@ -1,0 +1,21 @@
+name: "claude-code-opus"
+agent: "claude-code"
+
+model:
+  provider: "anthropic"
+  name: "opus"  # Claude Code alias for latest Opus model
+  temperature: 0.0
+  max_tokens: 4096
+
+prompts:
+  system: |
+    You are Claude, an AI assistant focused on helping with code.
+    Be thorough, precise, and explain your reasoning.
+    Use your advanced reasoning capabilities for complex problems.
+
+context:
+  max_files: 20
+  include_test_files: true
+  documentation_urls:
+    - "./README.md"
+    - "./docs/"

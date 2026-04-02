@@ -1,0 +1,71 @@
+name: "kiro-default"
+agent: "kiro"
+
+model:
+  provider: "aws-bedrock"
+  name: "claude-sonnet-4"
+  temperature: 0.0
+  max_tokens: 8192
+
+prompts:
+  system: |
+    You are a senior software engineer using spec-driven development.
+    Always start with a clear specification before implementation.
+    Break complex tasks into manageable sub-tasks.
+
+  spec_template: |
+    ## Specification
+    - Goal: {goal}
+    - Success Criteria: {criteria}
+    - Constraints: {constraints}
+
+    ## Implementation Plan
+    - Step 1: ...
+    - Step 2: ...
+    - Step 3: ...
+
+  review: |
+    You are reviewing code changes made by another agent ({AGENT}).
+
+    Original Task: {TASK}
+
+    Code Changes:
+    {DIFF}
+
+    Please provide a detailed code review with the following structure:
+
+    SCORES (1-5, where 5 is excellent):
+    - Code Quality: [score]/5
+    - Correctness: [score]/5
+    - Maintainability: [score]/5
+
+    DETAILED REVIEW:
+    1. Code Quality & Best Practices
+       - What's good
+       - What needs improvement
+
+    2. Correctness & Bugs
+       - Potential issues
+       - Edge cases
+
+    3. Security & Performance
+       - Security concerns
+       - Performance implications
+
+    4. Suggestions for Improvement
+       - Specific recommendations
+       - Code examples if applicable
+
+    OVERALL ASSESSMENT: [APPROVE / REQUEST CHANGES / REJECT]
+
+    Be constructive and specific in your feedback.
+
+settings:
+  spec_first: true
+  max_plan_depth: 3
+  require_approval: false
+
+context:
+  max_files: 50
+  persist_context: true
+  include_test_files: true

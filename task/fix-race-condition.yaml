@@ -1,0 +1,36 @@
+name: "fix-race-condition"
+description: "Add concurrent write protection to zap logger core"
+language: "go"
+repo: "./test-repos/zap"
+initial_state: "v1.27.1"  # Latest stable release - ensures consistent benchmarks
+instructions: |
+  Add a concurrent-safe wrapper for the zap logger core that protects against
+  concurrent writes when using the same core from multiple goroutines:
+
+  1. Create a new core wrapper in zapcore/ called lockedCore
+  2. Implement the zapcore.Core interface
+  3. Use sync.Mutex or sync.RWMutex to protect Write operations
+  4. Ensure Check and With methods are properly handled
+  5. Add comprehensive tests including race condition tests
+  6. Add benchmarks to measure performance impact
+
+  Requirements:
+  - Implement the full zapcore.Core interface
+  - Use appropriate synchronization (RWMutex allows concurrent Enabled checks)
+  - Add detailed documentation explaining when to use this wrapper
+  - Follow zap's existing code patterns and style
+  - Minimize performance overhead
+  - Tests must pass with -race flag
+
+success_criteria:
+  - Race detector passes: `go test -race ./zapcore/...`
+  - All existing tests continue to pass
+  - New concurrent access tests demonstrate thread safety
+  - Benchmarks show acceptable overhead (< 20% for common operations)
+  - Documentation is clear about use cases
+
+evaluation:
+  run_tests: "go test -race ./zapcore/..."
+  check_diff: true
+
+timeout: 480s  # 8 minutes

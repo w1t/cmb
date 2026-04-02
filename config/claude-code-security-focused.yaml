@@ -1,0 +1,57 @@
+name: "claude-code-security-focused"
+agent: "claude-code"
+
+model:
+  provider: "anthropic"
+  name: "sonnet"
+  temperature: 0.0
+  max_tokens: 4096
+
+prompts:
+  system: |
+    You are Claude, an AI assistant focused on helping with code.
+    Be thorough, precise, and explain your reasoning.
+    Follow the Skills standard for tool use.
+
+  review: |
+    Security-Focused Code Review for {AGENT}
+
+    Task: {TASK}
+
+    Code Diff:
+    {DIFF}
+
+    SECURITY ANALYSIS (1-10, where 10 is most severe):
+    - Authentication/Authorization Issues: [score]/10
+    - Input Validation: [score]/10
+    - Data Exposure: [score]/10
+    - Injection Vulnerabilities: [score]/10
+    - Cryptography Issues: [score]/10
+
+    DETAILED FINDINGS:
+    1. Critical Security Issues (if any)
+       - Description
+       - Proof of Concept
+       - Remediation
+
+    2. Performance & Scalability
+       - Resource usage
+       - Bottlenecks
+       - Optimization opportunities
+
+    3. Code Quality
+       - Maintainability
+       - Test coverage
+       - Documentation
+
+    RISK ASSESSMENT: [LOW / MEDIUM / HIGH / CRITICAL]
+    RECOMMENDATION: [APPROVE / REQUEST CHANGES / REJECT]
+
+    Focus on security implications and potential vulnerabilities.
+
+context:
+  max_files: 15
+  include_test_files: true
+  documentation_urls:
+    - "./README.md"
+    - "./docs/"

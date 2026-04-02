@@ -1,0 +1,27 @@
+name: "test-simple"
+description: "Simple test task to verify CMB is working"
+language: "go"
+repo: "./test-repos/chi"
+initial_state: "v5.2.4"  # Latest stable release - ensures consistent benchmarks
+instructions: |
+  Create a file called BENCHMARK.md with the following content:
+
+  ```markdown
+  # Benchmark Results
+
+  This directory will contain benchmark results for chi router performance.
+  ```
+
+  That's all! Just create this one simple markdown file.
+
+success_criteria:
+  - BENCHMARK.md file is created in the root directory
+  - File contains the specified content
+  - No other files are modified
+  - All existing tests still pass
+
+evaluation:
+  run_tests: "go test -run TestMux ./..."
+  check_diff: true
+
+timeout: 120s  # 2 minutes - should be very quick

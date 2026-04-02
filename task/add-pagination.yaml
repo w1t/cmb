@@ -1,0 +1,33 @@
+name: "add-pagination"
+description: "Add command aliases support to cobra CLI"
+language: "go"
+repo: "./test-repos/cobra"
+initial_state: "v1.10.2"  # Latest stable release - ensures consistent benchmarks
+instructions: |
+  Enhance cobra to support command aliases with better validation:
+
+  1. Add validation to ensure aliases don't conflict with existing commands
+  2. Add a method to retrieve all aliases for a command programmatically
+  3. Improve the help output to show aliases more clearly
+  4. Add tests for alias conflict detection
+  5. Add examples to the documentation
+
+  Requirements:
+  - Don't break existing functionality
+  - Validate aliases at command initialization time
+  - Clear error messages when conflicts are detected
+  - Update relevant documentation in command.go
+  - Follow existing code patterns in cobra
+
+success_criteria:
+  - All existing tests pass
+  - New alias validation tests added and passing
+  - No breaking changes to the public API
+  - Documentation is updated
+  - Examples demonstrate the new functionality
+
+evaluation:
+  run_tests: "go test ./..."
+  check_diff: true
+
+timeout: 480s  # 8 minutes

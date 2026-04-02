@@ -1,0 +1,35 @@
+name: "refactor-auth"
+description: "Add middleware for request ID tracking in chi router"
+language: "go"
+repo: "./test-repos/chi"
+initial_state: "v5.2.4"  # Latest stable release - ensures consistent benchmarks
+instructions: |
+  Add a new middleware to chi that tracks request IDs for better observability:
+
+  1. Create a new middleware called RequestID
+  2. Generate unique request IDs (UUID v4)
+  3. Add the request ID to the request context
+  4. Add a response header "X-Request-ID" with the value
+  5. Support accepting existing request IDs from incoming "X-Request-ID" header
+  6. Add comprehensive tests for the middleware
+
+  Requirements:
+  - Use google/uuid for generating UUIDs
+  - Middleware should be added to the middleware/ directory
+  - Follow chi's existing middleware patterns (see middleware/logger.go)
+  - Include examples in the godoc comments
+  - Thread-safe implementation
+  - Zero allocations in the hot path if request ID is provided
+
+success_criteria:
+  - All existing tests pass
+  - New middleware tests added and passing
+  - No breaking changes to existing code
+  - Follows chi's code style and patterns
+  - Documentation is clear and includes examples
+
+evaluation:
+  run_tests: "go test ./..."
+  check_diff: true
+
+timeout: 600s  # 10 minutes
